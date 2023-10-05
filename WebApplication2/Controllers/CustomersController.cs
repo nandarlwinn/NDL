@@ -32,7 +32,19 @@ namespace WebApplication2.Controllers {
 
         // POST api/<CustomersController>
         [HttpPost]
-        public void Post([FromBody] string value) {
+        public async Task<IActionResult> Post([FromBody] CustomerDto customerDto) {
+            try {
+                var newCustomer = new Customer {
+                  FirstName = customerDto.FirstName,
+                  LastName = customerDto.LastName,
+                  Email = customerDto.Email,
+                };
+                _context.Customers.Add(newCustomer);
+                await _context.SaveChangesAsync();
+                return Ok("Successfully created customer data.");
+            } catch (Exception ex) {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
         }
 
         // PUT api/<CustomersController>/5
@@ -44,5 +56,15 @@ namespace WebApplication2.Controllers {
         [HttpDelete("{id}")]
         public void Delete(int id) {
         }
+
+        private class CustomerDto {
+
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
+            public string Email { get; set; }
+        }
     }
 }
+
