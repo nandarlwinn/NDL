@@ -57,7 +57,7 @@ namespace WebApplication2.Controllers {
         public void Delete(int id) {
         }
 
-        private class CustomerDto {
+        public class CustomerDto {
 
             public string FirstName { get; set; }
 
